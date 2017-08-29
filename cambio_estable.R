@@ -4,6 +4,7 @@
 
 library(raster)
 library(reshape)
+rm(list=ls())
 setwd("C:/CONABIO/CLIMA/LifeZones/LZ_R_uniatmos/")
 
 
@@ -11,7 +12,7 @@ setwd("C:/CONABIO/CLIMA/LifeZones/LZ_R_uniatmos/")
 #Importat raster de las zonas de vida de cada tiempo
 #### Preparacion de matrices ####
 #llamar raster de las zonas de vida de cada tiempo y mexbio
-zvrcp45 <- raster("C:/CONABIO/CLIMA/LifeZones/LZ_R_uniatmos/Resample/CNRMCM5_rcp45_2015_2039_bio/zvhrcp45.tif")
+zvrcp45 <- raster("C:/CONABIO/CLIMA/LifeZones/LZ_R_uniatmos/Resample/HAD_ESM_LR_rcp45_2015_2039_bio/zvhrcp45.tif")
 zvrcp85 <- raster("C:/CONABIO/CLIMA/LifeZones/LZ_R_uniatmos/Resample/HAD_ESM_LR_rcp85_2015_2039_bio/zvhrcp85.tif")
 zv <- raster("C:/CONABIO/CLIMA/LifeZones/LZ_R_uniatmos/Resample/Presente/zvh.tif")
 
@@ -92,7 +93,7 @@ m_final85<-rename(m_final85, c(m_final.LatReg_P...m_final.LatReg_85="Lat.vec85",
 #Identificar zonas de clima estable (suma.vec45 = 0)
 estables45 <-subset(m_final45, suma.vec45 == 0)
 estables45 <-estables45[,1:7]
-write.csv(estables45,"Resample/CNRMCM5_rcp45_2015_2039_bio/estables45.csv")
+write.csv(estables45,"Resample/HAD_ESM_LR_rcp45_2015_2039_bio/estables45.csv")
 estables45 <-estables45[,1:3]
 coor.ref<-crs("+proj=longlat +datum=WGS84 +no_defs +ellps=WGS84 +towgs84=0,0,0")
 estables<-rasterFromXYZ(estables45, crs = coor.ref, digits=0)
@@ -111,7 +112,7 @@ cambio45 <-subset(m_final45, suma.vec45 != 0)
 cambio.45select<-c("x","y","MEXBIO_2010_gw_pr","zvh","zvhrcp45",
                   "ecoregiones","Lat.vec45","Ppt.vec45","Phum45.vec","suma.vec45")
 cambio45<-cambio45[cambio.45select]
-write.csv(cambio45,"Resample/CNRMCM5_rcp45_2015_2039_bio/cambio45.csv")
+write.csv(cambio45,"Resample/HAD_ESM_LR_rcp45_2015_2039_bio/cambio45.csv")
 cambio45 <-cambio45[,1:2]
 cambio<-rasterFromXYZ(cambio45, crs = coor.ref, digits=0)
 writeRaster(cambio,filename="cambio45.tif", format="GTiff", overwrite = TRUE)
